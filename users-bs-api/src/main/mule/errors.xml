@@ -121,5 +121,8 @@ output application/json
 			</ee:transform>
 			<logger level="INFO" doc:name="log error" doc:id="9fe670d8-862b-42c4-97fd-89fbb1aeec84" message="${mule.log.expression.error}" />
 		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="b9cc3d00-a8c4-401f-a77f-bda874662829" type="ANY">
+			<logger level="INFO" doc:name="log error" doc:id="097a3a62-b94a-4160-8974-2afd2b2252d9" message="${mule.log.expression.error}" />
+		</on-error-propagate>
 	</error-handler>
 	</mule>

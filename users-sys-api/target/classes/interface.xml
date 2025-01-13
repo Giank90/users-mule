@@ -31,260 +31,33 @@
         <error-handler ref="error-handler-users-sys-api" />
     </flow>
     <flow name="put:\users\(id):application\json:users-sys-api-config">
-        <ee:transform doc:name="Transform Message">
-            <ee:variables>
-                <ee:set-variable variableName="id">attributes.uriParams.'id'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <ee:transform doc:name="Transform Message">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  status: "success",
-  code: 200,
-  message: "Operation completed successfully.",
-  operation: "PUT",
-  data: [
-    {
-      id: "1",
-      name: "Mario",
-      surname: "Rossi",
-      email: "mario.rossi86@gmail.com",
-      address: "Via degli Anfossi 42, Roma",
-      phone: "0672444650"
-    }, 
-    {
-      id: "2",
-      name: "Roberto",
-      surname: "Guadagnoli",
-      email: "roby.gua53@gmail.com",
-      address: "Via degli Speziali 3, Firenze",
-      phone: "0551634828"
-    }, 
-    {
-      id: "3",
-      name: "Francesca",
-      surname: "Roselli",
-      email: "rosselli.francesca@yahoo.it.com",
-      address: "Via Armando Brinciani 51, Bologna",
-      phone: "0518766150"
-    }
-  ],
-  timestamp: "2025-01-08T17:49:54Z"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <logger level="INFO" doc:name="Log start" doc:id="31ab49a6-c6dd-4143-b582-bc55e121b806" message="${mule.log.expression.start}" />
+		<flow-ref doc:name="UPDATE / users-by-id" doc:id="2df28d6f-2a54-44a6-b57a-ce9c6f3744eb" name="update-users-by-id" />
+		<logger level="INFO" doc:name="Log end" doc:id="8865e597-6a77-4df6-9cd1-6450c85f119c" message="${mule.log.expression.end}" />
     </flow>
     <flow name="put:\users:application\json:users-sys-api-config">
-        <ee:transform doc:name="Transform Message">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  status: "success",
-  code: 200,
-  message: "Operation completed successfully.",
-  operation: "PUT",
-  data: [
-    {
-      id: "1",
-      name: "Mario",
-      surname: "Rossi",
-      email: "mario.rossi86@gmail.com",
-      address: "Via degli Anfossi 42, Roma",
-      phone: "0672444650"
-    }, 
-    {
-      id: "2",
-      name: "Roberto",
-      surname: "Guadagnoli",
-      email: "roby.gua53@gmail.com",
-      address: "Via degli Speziali 3, Firenze",
-      phone: "0551634828"
-    }, 
-    {
-      id: "3",
-      name: "Francesca",
-      surname: "Roselli",
-      email: "rosselli.francesca@yahoo.it.com",
-      address: "Via Armando Brinciani 51, Bologna",
-      phone: "0518766150"
-    }
-  ],
-  timestamp: "2025-01-08T17:49:54Z"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
-    </flow>
-    <flow name="delete:\users\(id):application\json:users-sys-api-config">
-        <ee:transform doc:name="Transform Message">
-            <ee:variables>
-                <ee:set-variable variableName="id">attributes.uriParams.'id'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <ee:transform doc:name="Transform Message">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  status: "success",
-  code: 204,
-  message: "Operation completed successfully.",
-  operation: "DELETE",
-  timestamp: "2025-01-08T17:49:54Z"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <logger level="INFO" doc:name="Log start" doc:id="83c244ce-c4fe-4c75-94f1-55b9d4ace39a" message="${mule.log.expression.start}" />
+		<flow-ref doc:name="UPDATE / users" doc:id="d51a7d06-2e58-4ed1-9e84-d230b8c073a8" name="update-users" />
+		<logger level="INFO" doc:name="Log end" doc:id="5f1ec4eb-a72f-41ed-9324-04d52b87118a" message="${mule.log.expression.end}" />
     </flow>
     <flow name="delete:\users:application\json:users-sys-api-config">
-        <ee:transform doc:name="Transform Message">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  status: "success",
-  code: 204,
-  message: "Operation completed successfully.",
-  operation: "DELETE",
-  timestamp: "2025-01-08T17:49:54Z"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <logger level="INFO" doc:name="Log start" doc:id="55994d9b-5dc1-4ebf-aaca-15430a59ad6a" message="${mule.log.expression.start}" />
+		<flow-ref doc:name="DELETE / users" doc:id="1906ecd3-ad65-441e-be3a-43c63f011527" name="delete-users" />
+		<logger level="INFO" doc:name="Log end" doc:id="7e63997f-87ac-4ac9-8f2c-d6f55c4695a6" message="${mule.log.expression.end}" />
     </flow>
     <flow name="get:\users:users-sys-api-config">
-        <ee:transform doc:name="Transform Message">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  status: "success",
-  code: 200,
-  message: "Operation completed successfully.",
-  operation: "PUT",
-  data: [
-    {
-      id: "1",
-      name: "Mario",
-      surname: "Rossi",
-      email: "mario.rossi86@gmail.com",
-      address: "Via degli Anfossi 42, Roma",
-      phone: "0672444650"
-    }, 
-    {
-      id: "2",
-      name: "Roberto",
-      surname: "Guadagnoli",
-      email: "roby.gua53@gmail.com",
-      address: "Via degli Speziali 3, Firenze",
-      phone: "0551634828"
-    }, 
-    {
-      id: "3",
-      name: "Francesca",
-      surname: "Roselli",
-      email: "rosselli.francesca@yahoo.it.com",
-      address: "Via Armando Brinciani 51, Bologna",
-      phone: "0518766150"
-    }
-  ],
-  timestamp: "2025-01-08T17:49:54Z"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <logger level="INFO" doc:name="Log start" doc:id="6e2a99f3-5711-4642-ab4c-c67b4574edab" message="${mule.log.expression.start}" />
+		<flow-ref doc:name="SELECT / users" doc:id="225a89cf-93c6-4305-849b-a0b8d3c967e6" name="retrieve-users" />
+		<logger level="INFO" doc:name="Log end" doc:id="180c0991-afb6-46ce-adde-55204098b993" message="${mule.log.expression.end}" />
     </flow>
     <flow name="get:\users\(id):users-sys-api-config">
-        <ee:transform doc:name="Transform Message">
-            <ee:variables>
-                <ee:set-variable variableName="id">attributes.uriParams.'id'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <ee:transform doc:name="Transform Message">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  status: "success",
-  code: 200,
-  message: "Operation completed successfully.",
-  operation: "PUT",
-  data: [
-    {
-      id: "1",
-      name: "Mario",
-      surname: "Rossi",
-      email: "mario.rossi86@gmail.com",
-      address: "Via degli Anfossi 42, Roma",
-      phone: "0672444650"
-    }, 
-    {
-      id: "2",
-      name: "Roberto",
-      surname: "Guadagnoli",
-      email: "roby.gua53@gmail.com",
-      address: "Via degli Speziali 3, Firenze",
-      phone: "0551634828"
-    }, 
-    {
-      id: "3",
-      name: "Francesca",
-      surname: "Roselli",
-      email: "rosselli.francesca@yahoo.it.com",
-      address: "Via Armando Brinciani 51, Bologna",
-      phone: "0518766150"
-    }
-  ],
-  timestamp: "2025-01-08T17:49:54Z"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <logger level="INFO" doc:name="Log start" doc:id="5c4a00c6-debb-4ae5-a82a-ba7ed20a705c" message="${mule.log.expression.start}" />
+		<flow-ref doc:name="SELECT / users-by-id" doc:id="ccf1faf5-d86b-45f6-98ef-8c80e33bb3a9" name="retrieve-users-by-id" />
+		<logger level="INFO" doc:name="Log end" doc:id="ad5c1174-c3cf-4b58-ba14-2ea31c2db088" message="${mule.log.expression.end}" />
     </flow>
     <flow name="post:\users:application\json:users-sys-api-config">
-        <ee:transform doc:name="Transform Message">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  status: "success",
-  code: 201,
-  message: "Operation completed successfully.",
-  operation: "POST",
-  data: [
-    {
-      id: "1",
-      name: "Mario",
-      surname: "Rossi",
-      email: "mario.rossi86@gmail.com",
-      address: "Via degli Anfossi 42, Roma",
-      phone: "0672444650"
-    }, 
-    {
-      id: "2",
-      name: "Roberto",
-      surname: "Guadagnoli",
-      email: "roby.gua53@gmail.com",
-      address: "Via degli Speziali 3, Firenze",
-      phone: "0551634828"
-    }, 
-    {
-      id: "3",
-      name: "Francesca",
-      surname: "Roselli",
-      email: "rosselli.francesca@yahoo.it.com",
-      address: "Via Armando Brinciani 51, Bologna",
-      phone: "0518766150"
-    }
-  ],
-  timestamp: "2025-01-08T17:49:54Z"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <logger level="INFO" doc:name="Log start" doc:id="ead3ef6a-98ba-48da-a2b6-511e175ae457" message="${mule.log.expression.start}" />
+		<flow-ref doc:name="CREATE / users" doc:id="061a5f19-5c40-4c6b-a490-40a2c8a31311" name="create-users" />
+		<logger level="INFO" doc:name="Log end" doc:id="d65cb5f9-234f-4819-9cdf-951835fd17b2" message="${mule.log.expression.end}" />
     </flow>
 </mule>

@@ -2,7 +2,8 @@
   "configs": [
     "interface.xml",
     "global.xml",
-    "errors.xml"
+    "errors.xml",
+    "implementations/users-requests.xml"
   ],
   "secureProperties": [],
   "redeploymentEnabled": true,
@@ -14,8 +15,10 @@
     "attributes": {
       "exportedPackages": [],
       "exportedResources": [
+        "application-types.xml",
         "errors.xml",
         "global.xml",
+        "implementations/users-requests.xml",
         "interface.xml",
         "log4j2.xml",
         "properties/config-dev.yaml",

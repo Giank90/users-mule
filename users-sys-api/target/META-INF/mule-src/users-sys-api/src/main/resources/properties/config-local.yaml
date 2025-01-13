@@ -1,3 +1,19 @@
+#users-sys-api-listener
+listener:
+  protocol: "HTTP"
+  host: "localhost"
+  port: "8082"
+  base-path: "/api/v1/*"
+  console-path: "console/*"
+  paths:
+    users-request: "users"
+  idle-timeout: "300000"
+  read-timeout: "300000"
+  
+#mySQL-users-database:
+
+
+
 #Log flow expressions
 mule:
     log:

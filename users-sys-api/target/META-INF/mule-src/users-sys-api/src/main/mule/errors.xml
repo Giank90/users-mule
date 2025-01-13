@@ -5,7 +5,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
-	<error-handler name="error-handler-user-xs-api" doc:id="31999389-a150-438c-a8a3-cf81a8bd3d36" >
+	<error-handler name="error-handler-users-sys-api" doc:id="31999389-a150-438c-a8a3-cf81a8bd3d36" >
 		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="6496c4a5-e140-4915-a700-78cced4a7ad2" type="APIKIT:BAD_REQUEST">
 			<ee:transform doc:name="BAD REQUEST" doc:id="a6d0df8f-75a2-4257-82f4-6dc00ead5ccf" >
 				<ee:message >

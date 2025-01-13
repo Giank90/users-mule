@@ -1,0 +1,13 @@
+%dw 2.0
+
+type auto_25f505da_1d64_4f88_8f6d_7942e9fc96ab_Output_Payload = {
+  code?: Number, 
+  data?: Array<{ _?: Any }>, 
+  message?: String, 
+  operation?: String, 
+  status?: String, 
+  timestamp?: String, 
+  _?: Any
+} {"description": "User created",
+"label": "Users creation response"}
+

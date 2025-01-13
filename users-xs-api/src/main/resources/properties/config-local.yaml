@@ -1,3 +1,44 @@
+#users-xs-api-listener
+listener:
+  protocol: "HTTP"
+  host: "localhost"
+  port: "8080"
+  base-path: "/api/v1/*"
+  console-path: "console/*"
+  paths:
+    users-request: "users"
+  idle-timeout: "300000"
+  read-timeout: "300000"
+  
+#http-request-to-users-bs-api
+users-bs-api-request:
+  protocol: "HTTP"
+  host: "localhost"
+  port: "8081"
+  base-path: "/api/v1/*"
+  idle-timeout: "300000"
+  resp-timeout: "300000"
+  methods:
+    GET:
+      name: "GET"
+      paths:
+        users: "users"
+        users-id: "users/{id}"
+    POST:
+      name: "POST"
+      paths:
+        users: "users"
+    PUT:
+      name: "PUT"
+      paths:
+        users: "users"
+        users-id: "users/{id}"
+    DELETE:
+      name: "DELETE"
+      paths:
+        users: "users"
+        users-id: "users/{id}"
+
 #Log flow expressions
 mule:
     log:

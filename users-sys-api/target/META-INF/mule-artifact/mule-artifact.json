@@ -1,5 +1,6 @@
 {
   "configs": [
+    "implementations/users-db-query.xml",
     "interface.xml",
     "global.xml",
     "errors.xml"
@@ -16,6 +17,7 @@
       "exportedResources": [
         "errors.xml",
         "global.xml",
+        "implementations/users-db-query.xml",
         "interface.xml",
         "log4j2.xml",
         "properties/config-dev.yaml",

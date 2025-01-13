@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<sub-flow name="users-select-db-query" doc:id="f11ff30f-b863-4564-9982-2b528d241412" >
+		<logger level="INFO" doc:name="Log start" doc:id="7256d28b-47f0-45ba-b6bc-9f745f39b906" message="${mule.log.expression.start}" />
+		<db:select doc:name="SELECT / users table" doc:id="f80384ff-9f27-4491-b308-41ea3304df98" />
+		<logger level="INFO" doc:name="Log end" doc:id="2472dd7f-4e3b-48ae-ba03-55e1e8ba3570" message="${mule.log.expression.end}" />
+	</sub-flow>
+	<sub-flow name="users-select-db-query-by-id" doc:id="753562c4-379c-4a93-99af-2b6a36948593" >
+		<logger level="INFO" doc:name="Log start" doc:id="02e09754-683c-44e2-866e-d53a805e3d4e" message="${mule.log.expression.start}" />
+		<db:select doc:name="SELECT / users table by id" doc:id="90426035-13f0-48cb-8d6e-4014122c1219" />
+		<logger level="INFO" doc:name="Log end" doc:id="0d3079fb-af18-4ad2-8f17-57d817249d75" message="${mule.log.expression.end}" />
+	</sub-flow>
+	<sub-flow name="users-create-db-query" doc:id="5e90ae48-8f89-487f-8c6f-efa696b221bc" >
+		<logger level="INFO" doc:name="Log start" doc:id="3d406443-9ea8-4388-a4e6-523d3d8b69c4" message="${mule.log.expression.start}" />
+		<foreach doc:name="For Each" doc:id="976e6126-b240-4bc5-bdd4-2d7cc99eeb69">
+			<db:insert doc:name="INSERT / users table" doc:id="d5b04253-a1b5-438e-9f6d-a5da4e70c480" />
+		</foreach>
+		<logger level="INFO" doc:name="Log end" doc:id="73f1973d-8a3a-426d-9802-f120875489fd" message="${mule.log.expression.end}" />
+	</sub-flow>
+	<sub-flow name="users-update-db-query" doc:id="cfb84f5e-6d17-4eae-847b-cf0c4fb60f98" >
+		<logger level="INFO" doc:name="Log start" doc:id="fbe4c6e7-1b0c-448e-9726-cfc9eeedc03e" message="${mule.log.expression.start}" />
+		<db:update doc:name="UPDATE / users table" doc:id="5ff80a10-9793-4e31-a6c0-ceef79e83526" />
+		<logger level="INFO" doc:name="Log end" doc:id="8d2f76ba-dd97-4515-a9a9-75f45a3d1dff" message="${mule.log.expression.end}" />
+	</sub-flow>
+	<sub-flow name="users-update-db-query-by-id" doc:id="836b0845-ab04-4413-8100-764df8cd245c" >
+		<logger level="INFO" doc:name="Log start" doc:id="7e44b53b-d649-4042-8bb9-368e9f6a82d5" message="${mule.log.expression.start}" />
+		<db:update doc:name="UPDATE / users table by id" doc:id="f1fe59c0-a01f-40c7-808c-3527b26d44ba" />
+		<logger level="INFO" doc:name="Log end" doc:id="acb1ee3f-ffe5-4555-89cf-bf1013f336f4" message="${mule.log.expression.end}" />
+	</sub-flow>
+	<sub-flow name="users-delete-db-query" doc:id="9f8b15b6-4ebb-47f6-97d3-d64a01365e93" >
+		<logger level="INFO" doc:name="Log start" doc:id="6d9920b0-16c7-4026-ade7-08da43db0d17" message="${mule.log.expression.start}" />
+		<db:delete doc:name="DELETE / users table" doc:id="946422b4-d58f-43b3-90a0-c69326b0cceb" />
+		<logger level="INFO" doc:name="Log end" doc:id="6601ef15-282d-42f4-97a1-af5c47a6f186" message="${mule.log.expression.end}" />
+	</sub-flow>
+</mule>
