@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<error-handler name="error-handler-users-xs-api" doc:id="0bf0e3d9-04d8-46ba-ac90-d04e197bd492" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="1a32175c-5dfe-473e-9822-9637209cc993" type="APIKIT:BAD_REQUEST">
+			<ee:transform doc:name="BAD REQUEST" doc:id="c0e15755-dcbb-42fa-96f8-f966e11ffa02" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"status": "1",
+	"errorCode": "400",
+	"message": error.description,
+	"correlationId": correlationId
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<logger level="INFO" doc:name="log error" doc:id="ba99ae14-8126-4e6b-b8d0-4d1ab94b6f83" message="${mule.log.expression.error}"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="cfdf92e3-6a9e-4a45-a642-b59c05ac5887" type="APIKIT:NOT_FOUND">
+			<ee:transform doc:name="NOT FOUND" doc:id="283e259c-bd83-4098-af85-afb5968f26c4" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"status": "1",
+	"errorCode": "404",
+	"message": error.description,
+	"correlationId": correlationId
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<logger level="INFO" doc:name="log error" doc:id="70e69814-edfc-4bad-8e86-1600201040c7" message="${mule.log.expression.error}" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="580095ea-b05f-4dc6-afb7-182c620b3e2c" type="APIKIT:METHOD_NOT_ALLOWED">
+			<ee:transform doc:name="METHOD NOT ALLOWED" doc:id="01748a3a-6eb4-40af-a87e-30b67f5af9b8" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"status": "1",
+	"errorCode": "405",
+	"message": error.description,
+	"correlationId": correlationId
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<logger level="INFO" doc:name="log error" doc:id="a45af0b0-6dda-4929-b4b5-0c8856c76fed" message="${mule.log.expression.error}" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="29f0d83c-eb8d-4b25-b7ac-86d68e00b8a1" type="APIKIT:NOT_ACCEPTABLE">
+			<ee:transform doc:name="NOT ACCEPTABLE" doc:id="6069cfe1-1a9e-4245-b593-cb99329e08b0" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"status": "1",
+	"errorCode": "406",
+	"message": error.description,
+	"correlationId": correlationId
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<logger level="INFO" doc:name="log error" doc:id="b38d136b-717f-49d3-99e4-24c103f5accf" message="${mule.log.expression.error}" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="67316d57-157f-4e1f-b231-884ccf4df68a" type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+			<ee:transform doc:name="UNSUPPORTED MEDIA TYPE" doc:id="8d584380-8fa6-4923-a89a-06cc3c5cda76" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"status": "1",
+	"errorCode": "406",
+	"message": error.description,
+	"correlationId": correlationId
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<logger level="INFO" doc:name="log error" doc:id="1de17f31-9b0c-4ff5-b590-348fc78a085e" message="${mule.log.expression.error}" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="407b2fa7-8e53-421c-b788-2bbfdec8854d" type="APIKIT:NOT_IMPLEMENTED">
+			<ee:transform doc:name="NOT IMPLEMENTED" doc:id="ad4b7fc1-a798-4f9a-bc02-1b7ae6d20224">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"status": "1",
+	"errorCode": "501",
+	"message": error.description,
+	"correlationId": correlationId
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<logger level="INFO" doc:name="log error" doc:id="1f7ccd69-7526-4a45-bc5c-d3ca6f76bcc9" message="${mule.log.expression.error}" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="3fad93a1-2026-4040-8b8e-87884463a311" type="HTTP:BAD_GATEWAY, HTTP:BAD_REQUEST, HTTP:CLIENT_SECURITY, HTTP:CONNECTIVITY, HTTP:FORBIDDEN, HTTP:INTERNAL_SERVER_ERROR, HTTP:METHOD_NOT_ALLOWED, HTTP:NOT_ACCEPTABLE, HTTP:NOT_FOUND, HTTP:PARSING, HTTP:RETRY_EXHAUSTED, HTTP:SECURITY, HTTP:SERVICE_UNAVAILABLE, HTTP:TIMEOUT, HTTP:TOO_MANY_REQUESTS, HTTP:UNAUTHORIZED, HTTP:UNSUPPORTED_MEDIA_TYPE, EXPRESSION,STREAM_MAXIMUM_SIZE_EXCEEDED">
+			<ee:transform doc:name="HTTP ERRORS" doc:id="bd4d346b-cf0a-4b4a-b65d-3df880f1c666" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"error": {
+		"status": "1",
+		"code": error.muleMessage.typedAttributes.statusCode,
+		"errorType": error.errorType.namespace,
+		"message": error.description,
+		"correlationId": correlationId
+	}
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<logger level="INFO" doc:name="log error" doc:id="cbb64791-53ef-449a-ae48-b2c4eb3cdd9e" message="${mule.log.expression.error}" />
+		</on-error-propagate>
+	</error-handler>
+</mule>

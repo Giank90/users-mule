@@ -1,0 +1,7 @@
+#Log flow expressions
+mule:
+    log:
+      expression:
+        start: "StartFlowName: #[flow.name] \n CorrelationId: #[correlationId] \n DateTime: #[now()]"
+        end: "EndFlowName: #[flow.name] \n CorrelationId: #[correlationId] \n DateTime: #[now()]"
+        error: "FlowName: #[flow.name] \n CorrelationId: #[correlationId] \n DateTime: #[now()] \n errorType: #[error.errorType default 'MULE:ANY']"
