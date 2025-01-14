@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<http:listener-config name="HTTP-users-sys-api-listener">
+        <http:listener-connection host="0.0.0.0" port="8081" />
+    </http:listener-config>
 	<global-property doc:name="Global Property" doc:id="3566427e-a812-492b-92d1-f4a4b335cb21" name="mule.env" value="local" />
 	<configuration-properties doc:name="Configuration properties" doc:id="36edfbd5-59c1-4b91-a730-32b61e8379ad" file="properties/config-${mule.env}.yaml" />
 	</mule>

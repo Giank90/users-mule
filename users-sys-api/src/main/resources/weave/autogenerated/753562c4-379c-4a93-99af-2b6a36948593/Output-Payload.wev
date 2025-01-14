@@ -1,0 +1,12 @@
+%dw 2.0
+
+type auto_753562c4_379c_4a93_99af_2b6a36948593_Output_Payload = {
+  code?: Number, 
+  data?: Array<{ _?: Any }>, 
+  message?: String, 
+  operation?: String, 
+  status?: String, 
+  timestamp?: String, 
+  _?: Any
+} {"label": "Users update response"}
+

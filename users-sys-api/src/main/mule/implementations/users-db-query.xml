@@ -1,39 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<sub-flow name="users-select-db-query" doc:id="f11ff30f-b863-4564-9982-2b528d241412" >
 		<logger level="INFO" doc:name="Log start" doc:id="7256d28b-47f0-45ba-b6bc-9f745f39b906" message="${mule.log.expression.start}" />
-		<db:select doc:name="SELECT / users table" doc:id="f80384ff-9f27-4491-b308-41ea3304df98" />
+		<ee:transform doc:name="missing fields check" doc:id="fa9ce9b1-91a8-49a9-b3df-3da04abb48a1" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+    name: payload.name default null,
+    surname: payload.surname default null
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<db:select doc:name="SELECT / users table" doc:id="f80384ff-9f27-4491-b308-41ea3304df98" config-ref="user-mysql-database">
+			<db:sql ><![CDATA[SELECT name, surname
+FROM Users
+WHERE (:name IS NULL OR name = :name)
+  AND (:surname IS NULL OR surname = :surname);
+]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	'name': attributes.queryParams.name,
+	'surname': attributes.queryParams.surname
+}]]]></db:input-parameters>
+		</db:select>
 		<logger level="INFO" doc:name="Log end" doc:id="2472dd7f-4e3b-48ae-ba03-55e1e8ba3570" message="${mule.log.expression.end}" />
 	</sub-flow>
 	<sub-flow name="users-select-db-query-by-id" doc:id="753562c4-379c-4a93-99af-2b6a36948593" >
 		<logger level="INFO" doc:name="Log start" doc:id="02e09754-683c-44e2-866e-d53a805e3d4e" message="${mule.log.expression.start}" />
-		<db:select doc:name="SELECT / users table by id" doc:id="90426035-13f0-48cb-8d6e-4014122c1219" />
+		<set-variable value="#[attributes.uriParams.'id']" doc:name="set id" doc:id="d3609b31-eb58-445c-9898-4f6af943587e" variableName="id"/>
+		<db:select doc:name="SELECT / users table by id" doc:id="90426035-13f0-48cb-8d6e-4014122c1219" config-ref="user-mysql-database">
+			<db:sql ><![CDATA[SELECT id, name, surname, email, address, phone
+FROM User
+WHERE id = :id;]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{'id': vars.id}]]]></db:input-parameters>
+		</db:select>
 		<logger level="INFO" doc:name="Log end" doc:id="0d3079fb-af18-4ad2-8f17-57d817249d75" message="${mule.log.expression.end}" />
 	</sub-flow>
 	<sub-flow name="users-create-db-query" doc:id="5e90ae48-8f89-487f-8c6f-efa696b221bc" >
 		<logger level="INFO" doc:name="Log start" doc:id="3d406443-9ea8-4388-a4e6-523d3d8b69c4" message="${mule.log.expression.start}" />
-		<foreach doc:name="For Each" doc:id="976e6126-b240-4bc5-bdd4-2d7cc99eeb69">
-			<db:insert doc:name="INSERT / users table" doc:id="d5b04253-a1b5-438e-9f6d-a5da4e70c480" />
-		</foreach>
+		<db:insert doc:name="INSERT / users table" doc:id="d5b04253-a1b5-438e-9f6d-a5da4e70c480" config-ref="user-mysql-database">
+			<db:sql ><![CDATA[INSERT INTO User (id, name, surname, email, address, phone)
+VALUES (:id, :name, :surname, :email, :address, :phone);]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	'id': payload.id,
+	'name': payload.name,
+	'surname': payload.surname,
+	'email': payload.email,
+	'address': payload.address,
+	'phone': payload.phone
+}]]]></db:input-parameters>
+		</db:insert>
 		<logger level="INFO" doc:name="Log end" doc:id="73f1973d-8a3a-426d-9802-f120875489fd" message="${mule.log.expression.end}" />
 	</sub-flow>
 	<sub-flow name="users-update-db-query" doc:id="cfb84f5e-6d17-4eae-847b-cf0c4fb60f98" >
 		<logger level="INFO" doc:name="Log start" doc:id="fbe4c6e7-1b0c-448e-9726-cfc9eeedc03e" message="${mule.log.expression.start}" />
-		<db:update doc:name="UPDATE / users table" doc:id="5ff80a10-9793-4e31-a6c0-ceef79e83526" />
+		<db:update doc:name="UPDATE / users table" doc:id="5ff80a10-9793-4e31-a6c0-ceef79e83526" config-ref="user-mysql-database">
+			<db:sql ><![CDATA[UPDATE User
+SET name = :name,
+    surname = :surname,
+    email = :email,
+    address = :address,
+    phone = :phone]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+    id: payload.id,
+    name: payload.name,
+    surname: payload.surname,
+    email: payload.email,
+    address: payload.address,
+    phone: payload.phone
+}]]]></db:input-parameters>
+		</db:update>
 		<logger level="INFO" doc:name="Log end" doc:id="8d2f76ba-dd97-4515-a9a9-75f45a3d1dff" message="${mule.log.expression.end}" />
 	</sub-flow>
 	<sub-flow name="users-update-db-query-by-id" doc:id="836b0845-ab04-4413-8100-764df8cd245c" >
 		<logger level="INFO" doc:name="Log start" doc:id="7e44b53b-d649-4042-8bb9-368e9f6a82d5" message="${mule.log.expression.start}" />
-		<db:update doc:name="UPDATE / users table by id" doc:id="f1fe59c0-a01f-40c7-808c-3527b26d44ba" />
+		<set-variable value="#[attributes.uriParams.'id']" doc:name="set id" doc:id="cadb6eea-baff-4584-b2db-1c03dbc43bc8" variableName="id" />
+		<db:update doc:name="UPDATE / users table by id" doc:id="f1fe59c0-a01f-40c7-808c-3527b26d44ba" config-ref="user-mysql-database">
+			<db:sql><![CDATA[UPDATE User
+SET name = :name,
+    surname = :surname,
+    email = :email,
+    address = :address,
+    phone = :phone
+WHERE id = :id;]]></db:sql>
+			<db:input-parameters><![CDATA[#[{
+    id: vars.id,
+    name: payload.name,
+    surname: payload.surname,
+    email: payload.email,
+    address: payload.address,
+    phone: payload.phone
+}]]]></db:input-parameters>
+		</db:update>
 		<logger level="INFO" doc:name="Log end" doc:id="acb1ee3f-ffe5-4555-89cf-bf1013f336f4" message="${mule.log.expression.end}" />
 	</sub-flow>
 	<sub-flow name="users-delete-db-query" doc:id="9f8b15b6-4ebb-47f6-97d3-d64a01365e93" >
 		<logger level="INFO" doc:name="Log start" doc:id="6d9920b0-16c7-4026-ade7-08da43db0d17" message="${mule.log.expression.start}" />
-		<db:delete doc:name="DELETE / users table" doc:id="946422b4-d58f-43b3-90a0-c69326b0cceb" />
+		<db:delete doc:name="DELETE / users table" doc:id="946422b4-d58f-43b3-90a0-c69326b0cceb" config-ref="user-mysql-database">
+			<db:sql ><![CDATA[DELETE FROM Users;]]></db:sql>
+		</db:delete>
 		<logger level="INFO" doc:name="Log end" doc:id="6601ef15-282d-42f4-97a1-af5c47a6f186" message="${mule.log.expression.end}" />
 	</sub-flow>
 </mule>

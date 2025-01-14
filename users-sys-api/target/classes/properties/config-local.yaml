@@ -12,7 +12,7 @@ listener:
   
 #mySQL-users-database:
 mySQL-database:
-  conn-name: users-db
+  db-name: users-db
   host: "127.0.0.1"
   port: "3306"
   user: "giancarlo-mule-01"

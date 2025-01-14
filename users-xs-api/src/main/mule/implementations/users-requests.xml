@@ -22,7 +22,6 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	</sub-flow>
 	<sub-flow name="retrieve-users-by-id" doc:id="3835714b-c172-4886-8c85-c11fd94e1bec" >
 		<logger level="INFO" doc:name="Log start" doc:id="ab8feafc-8fe0-4c48-b4b4-93cda84aaed3" message="${mule.log.expression.start}" />
-		<set-variable value="#[attributes.uriParams.'id']" doc:name="set id" doc:id="fba12bbb-8a81-47d6-b709-632051e17b23" variableName="id"/>
 		<http:request method="${users-bs-api-request.methods.GET.name}" doc:name="GET / users by id" doc:id="6d7f367a-6cca-4abc-829f-41f4a709d8a3" config-ref="HTTP-users-bs-api-request" path="${users-bs-api-request.methods.GET.paths.users-id}">
 			<http:uri-params ><![CDATA[#[output application/json
 ---
@@ -54,7 +53,6 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	</sub-flow>
 	<sub-flow name="update-users-by-id" doc:id="8fcb488a-d77f-4bf6-928a-5303fad382bc" >
 		<logger level="INFO" doc:name="Log start" doc:id="a8e787d2-e250-4c7c-9b75-0b2f0f427f7a" message="${mule.log.expression.start}" />
-		<set-variable value="#[attributes.uriParams.'id']" doc:name="set id" doc:id="d4bccfad-88e3-4820-87c9-4cb38389ca24" variableName="id" />
 		<http:request method="${users-bs-api-request.methods.PUT.name}" doc:name="PUT / users by id" doc:id="39bbe377-d030-43ff-bc5d-e8c6e9488d9c" config-ref="HTTP-users-bs-api-request" path="${users-bs-api-request.methods.PUT.paths.users-id}">
 			<http:uri-params ><![CDATA[#[output application/json
 ---

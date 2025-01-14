@@ -7,7 +7,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	<global-property doc:name="Global Property" doc:id="16c27f68-8222-4c20-8a35-1884d6a2c3b2" name="mule.env" value="local" />
 	<configuration-properties doc:name="Configuration properties" doc:id="bcfbcf25-eda5-4ce6-b09c-043c4eef178d" file="properties/config-${mule.env}.yaml" />
 	<http:listener-config name="HTTP-users-xs-api-listener" doc:name="HTTP Listener config" doc:id="e7963443-15ee-4d26-b044-4473e82f4574" basePath="${listener.base-path}">
-		<http:listener-connection host="${listener.host}" port="${listener.port}" connectionIdleTimeout="${listener.idle-timeout}"/>
+		<http:listener-connection host="${listener.host}" port="${listener.port}" connectionIdleTimeout="${listener.idle-timeout}" readTimeout="${listener.read-timeout}"/>
 	</http:listener-config>
 	<http:request-config name="HTTP-users-bs-api-request" doc:name="HTTP Request configuration" doc:id="31538b47-ad7c-4606-b967-eba00e13d585" responseTimeout="${users-bs-api-request.resp-timeout}" basePath="${users-bs-api-request.base-path}">
 		<http:request-connection host="${users-bs-api-request.host}" port="${users-bs-api-request.port}" connectionIdleTimeout="${users-bs-api-request.idle-timeout}"/>

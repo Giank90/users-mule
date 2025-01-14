@@ -11,8 +11,12 @@ listener:
   read-timeout: "300000"
   
 #mySQL-users-database:
-
-
+mySQL-database:
+  conn-name: users-db
+  host: "127.0.0.1"
+  port: "3306"
+  user: "giancarlo-mule-01"
+  pass: "mule_2025!"
 
 #Log flow expressions
 mule:
