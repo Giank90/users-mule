@@ -1,0 +1,11 @@
+%dw 2.0
+
+type auto_21b730c8_67c1_49f7_bd8e_f7e23fc06ee1_Output_Payload = {
+  code?: Number, 
+  message?: String, 
+  operation?: String, 
+  status?: String, 
+  timestamp?: String, 
+  _?: Any
+} {"label": "Users delete response"}
+

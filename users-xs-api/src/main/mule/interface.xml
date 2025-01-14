@@ -1,290 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
-    <http:listener-config name="users-xs-api-httpListenerConfig">
-        <http:listener-connection host="0.0.0.0" port="8081" />
-    </http:listener-config>
     <apikit:config name="users-xs-api-config" api="resource::3604549a-ea5a-4023-8776-543e0125ebc6:xs-users-api:1.0.1:raml:zip:users-xs-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
     <flow name="users-xs-api-main">
-        <http:listener config-ref="users-xs-api-httpListenerConfig" path="/api/*">
+        <http:listener path="${listener.paths.users-request}" config-ref="HTTP-users-xs-api-listener">
             <http:response statusCode="#[vars.httpStatus default 200]">
-                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:response>
             <http:error-response statusCode="#[vars.httpStatus default 500]">
-                <http:body>#[payload]</http:body>
-                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:error-response>
         </http:listener>
         <apikit:router config-ref="users-xs-api-config" />
         <error-handler ref="error-handler-users-xs-api" />
     </flow>
     <flow name="users-xs-api-console">
-        <http:listener config-ref="users-xs-api-httpListenerConfig" path="/console/*">
+        <http:listener path="${listener.console-path}" config-ref="HTTP-users-xs-api-listener">
             <http:response statusCode="#[vars.httpStatus default 200]">
-                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:response>
             <http:error-response statusCode="#[vars.httpStatus default 500]">
-                <http:body>#[payload]</http:body>
-                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:error-response>
         </http:listener>
         <apikit:console config-ref="users-xs-api-config" />
         <error-handler ref="error-handler-users-xs-api" />
     </flow>
     <flow name="put:\users\(id):application\json:users-xs-api-config">
-        <ee:transform doc:name="Transform Message">
-            <ee:variables>
-                <ee:set-variable variableName="id">attributes.uriParams.'id'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <ee:transform doc:name="Transform Message">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  status: "success",
-  code: 200,
-  message: "Operation completed successfully.",
-  operation: "PUT",
-  data: [
-    {
-      id: "1",
-      name: "Mario",
-      surname: "Rossi",
-      email: "mario.rossi86@gmail.com",
-      address: "Via degli Anfossi 42, Roma",
-      phone: "0672444650"
-    }, 
-    {
-      id: "2",
-      name: "Roberto",
-      surname: "Guadagnoli",
-      email: "roby.gua53@gmail.com",
-      address: "Via degli Speziali 3, Firenze",
-      phone: "0551634828"
-    }, 
-    {
-      id: "3",
-      name: "Francesca",
-      surname: "Roselli",
-      email: "rosselli.francesca@yahoo.it.com",
-      address: "Via Armando Brinciani 51, Bologna",
-      phone: "0518766150"
-    }
-  ],
-  timestamp: "2025-01-08T17:49:54Z"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <logger level="INFO" doc:name="Log start" doc:id="1b5368d4-9d35-46ad-93e3-b1b362428ae5" message="${mule.log.expression.start}"/>
+		<flow-ref doc:name="PUT / users-by-id" doc:id="74764c20-d2ce-4aaa-8796-7c854f043df9" name="update-users-by-id"/>
+		<logger level="INFO" doc:name="Log end" doc:id="fad81eb1-c313-46b4-b3f9-5eb64b6cbb0c" message="${mule.log.expression.end}"/>
     </flow>
     <flow name="put:\users:application\json:users-xs-api-config">
-        <ee:transform doc:name="Transform Message">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  status: "success",
-  code: 200,
-  message: "Operation completed successfully.",
-  operation: "PUT",
-  data: [
-    {
-      id: "1",
-      name: "Mario",
-      surname: "Rossi",
-      email: "mario.rossi86@gmail.com",
-      address: "Via degli Anfossi 42, Roma",
-      phone: "0672444650"
-    }, 
-    {
-      id: "2",
-      name: "Roberto",
-      surname: "Guadagnoli",
-      email: "roby.gua53@gmail.com",
-      address: "Via degli Speziali 3, Firenze",
-      phone: "0551634828"
-    }, 
-    {
-      id: "3",
-      name: "Francesca",
-      surname: "Roselli",
-      email: "rosselli.francesca@yahoo.it.com",
-      address: "Via Armando Brinciani 51, Bologna",
-      phone: "0518766150"
-    }
-  ],
-  timestamp: "2025-01-08T17:49:54Z"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
-    </flow>
-    <flow name="delete:\users\(id):application\json:users-xs-api-config">
-        <ee:transform doc:name="Transform Message">
-            <ee:variables>
-                <ee:set-variable variableName="id">attributes.uriParams.'id'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <ee:transform doc:name="Transform Message">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  status: "success",
-  code: 204,
-  message: "Operation completed successfully.",
-  operation: "DELETE",
-  timestamp: "2025-01-08T17:49:54Z"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <logger level="INFO" doc:name="Log start" doc:id="c9c02a9a-db6b-435a-b0fa-d013756e8858" message="${mule.log.expression.start}" />
+		<flow-ref doc:name="PUT / users" doc:id="c7dea956-be76-4f01-8193-8003657d10f6" name="update-users"/>
+		<logger level="INFO" doc:name="Log end" doc:id="5610b8d9-1d1c-4cef-ad8c-f2f97609d3ba" message="${mule.log.expression.end}" />
     </flow>
     <flow name="delete:\users:application\json:users-xs-api-config">
-        <ee:transform doc:name="Transform Message">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  status: "success",
-  code: 204,
-  message: "Operation completed successfully.",
-  operation: "DELETE",
-  timestamp: "2025-01-08T17:49:54Z"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <logger level="INFO" doc:name="Log start" doc:id="53930a7f-4786-4737-bb4b-62f8babb3ec3" message="${mule.log.expression.start}" />
+		<flow-ref doc:name="DELETE / users" doc:id="b7253a65-e29e-4733-9991-bce2d74d3078" name="delete-users"/>
+		<logger level="INFO" doc:name="Log end" doc:id="db8380e7-10a9-419f-90ba-d470d4891a55" message="${mule.log.expression.end}" />
     </flow>
     <flow name="get:\users:users-xs-api-config">
-        <ee:transform doc:name="Transform Message">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  status: "success",
-  code: 200,
-  message: "Operation completed successfully.",
-  operation: "GET",
-  data: [
-    {
-      id: "1",
-      name: "Mario",
-      surname: "Rossi",
-      email: "mario.rossi86@gmail.com",
-      address: "Via degli Anfossi 42, Roma",
-      phone: "0672444650"
-    }, 
-    {
-      id: "2",
-      name: "Roberto",
-      surname: "Guadagnoli",
-      email: "roby.gua53@gmail.com",
-      address: "Via degli Speziali 3, Firenze",
-      phone: "0551634828"
-    }, 
-    {
-      id: "3",
-      name: "Francesca",
-      surname: "Roselli",
-      email: "rosselli.francesca@yahoo.it.com",
-      address: "Via Armando Brinciani 51, Bologna",
-      phone: "0518766150"
-    }
-  ],
-  timestamp: "2025-01-08T17:49:54Z"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <logger level="INFO" doc:name="Log start" doc:id="34e56a67-5ac7-4e50-9ed7-7427ea7775e9" message="${mule.log.expression.start}" />
+		<flow-ref doc:name="GET / users" doc:id="f4a91369-6677-46a3-85cb-08ededf93eb1" name="retrieve-users"/>
+		<logger level="INFO" doc:name="Log end" doc:id="ffe1222e-465e-4f18-8b7d-4491cd2ed648" message="${mule.log.expression.end}" />
     </flow>
     <flow name="get:\users\(id):users-xs-api-config">
-        <ee:transform doc:name="Transform Message">
-            <ee:variables>
-                <ee:set-variable variableName="id">attributes.uriParams.'id'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <ee:transform doc:name="Transform Message">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  status: "success",
-  code: 200,
-  message: "Operation completed successfully.",
-  operation: "GET",
-  data: [
-    {
-      id: "1",
-      name: "Mario",
-      surname: "Rossi",
-      email: "mario.rossi86@gmail.com",
-      address: "Via degli Anfossi 42, Roma",
-      phone: "0672444650"
-    }, 
-    {
-      id: "2",
-      name: "Roberto",
-      surname: "Guadagnoli",
-      email: "roby.gua53@gmail.com",
-      address: "Via degli Speziali 3, Firenze",
-      phone: "0551634828"
-    }, 
-    {
-      id: "3",
-      name: "Francesca",
-      surname: "Roselli",
-      email: "rosselli.francesca@yahoo.it.com",
-      address: "Via Armando Brinciani 51, Bologna",
-      phone: "0518766150"
-    }
-  ],
-  timestamp: "2025-01-08T17:49:54Z"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+		<logger level="INFO" doc:name="Log start" doc:id="eb83396f-c62c-4493-a1da-3eb23ac115f4" message="${mule.log.expression.start}" />
+		<flow-ref doc:name="GET / users-by-id" doc:id="e4ae1c42-919b-4d5a-a826-93adafbf3808" name="retrieve-users-by-id"/>
+		<logger level="INFO" doc:name="Log end" doc:id="8c5f8542-a669-414e-a644-ce44cb874acf" message="${mule.log.expression.end}" />
     </flow>
     <flow name="post:\users:application\json:users-xs-api-config">
-        <ee:transform doc:name="Transform Message">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  status: "success",
-  code: 201,
-  message: "Operation completed successfully.",
-  operation: "POST",
-  data: [
-    {
-      id: "1",
-      name: "Mario",
-      surname: "Rossi",
-      email: "mario.rossi86@gmail.com",
-      address: "Via degli Anfossi 42, Roma",
-      phone: "0672444650"
-    }, 
-    {
-      id: "2",
-      name: "Roberto",
-      surname: "Guadagnoli",
-      email: "roby.gua53@gmail.com",
-      address: "Via degli Speziali 3, Firenze",
-      phone: "0551634828"
-    }, 
-    {
-      id: "3",
-      name: "Francesca",
-      surname: "Roselli",
-      email: "rosselli.francesca@yahoo.it.com",
-      address: "Via Armando Brinciani 51, Bologna",
-      phone: "0518766150"
-    }
-  ],
-  timestamp: "2025-01-08T17:49:54Z"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <logger level="INFO" doc:name="Log start" doc:id="24923d7e-c8c0-4e42-953a-cc23380b2381" message="${mule.log.expression.start}" />
+		<flow-ref doc:name="POST / users" doc:id="0ee97152-473b-42af-a7f3-b405220d12a1" name="create-users"/>
+		<logger level="INFO" doc:name="Log end" doc:id="97a0d861-4416-4156-bba6-5f0e6e5da833" message="${mule.log.expression.end}" />
     </flow>
 </mule>

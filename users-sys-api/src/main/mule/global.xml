@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<http:listener-config name="HTTP-users-sys-api-listener" basePath="${listener.base-path}">
+        <http:listener-connection host="${listener.host}" port="${listener.port}" readTimeout="${listener.read-timeout}" connectionIdleTimeout="${listener.idle-timeout}"/>
+    </http:listener-config>
 	<global-property doc:name="Global Property" doc:id="3566427e-a812-492b-92d1-f4a4b335cb21" name="mule.env" value="local" />
 	<configuration-properties doc:name="Configuration properties" doc:id="36edfbd5-59c1-4b91-a730-32b61e8379ad" file="properties/config-${mule.env}.yaml" />
+	<db:config name="user-mysql-database" doc:name="Database Config" doc:id="70235bd0-753f-49b6-8a23-c7482b39065e" >
+		<db:my-sql-connection host="${mySQL-database.host}" port="${mySQL-database.port}" database="${mySQL-database.db-name}" user="${mySQL-database.user}" password="${mySQL-database.pass}"/>
+	</db:config>
 	</mule>

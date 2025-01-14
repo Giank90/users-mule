@@ -1,0 +1,12 @@
+%dw 2.0
+
+type auto_1f6ef71e_a64f_410c_852b_58b6b38b0302_Output_Payload = {
+  code?: Number, 
+  data?: Array<{ _?: Any }>, 
+  message?: String, 
+  operation?: String, 
+  status?: String, 
+  timestamp?: String, 
+  _?: Any
+} {"label": "Retrieved users list response"}
+

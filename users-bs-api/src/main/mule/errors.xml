@@ -121,5 +121,23 @@ output application/json
 			</ee:transform>
 			<logger level="INFO" doc:name="log error" doc:id="9fe670d8-862b-42c4-97fd-89fbb1aeec84" message="${mule.log.expression.error}" />
 		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="febd0781-fc3b-4c0f-99f4-b228d8afaa51" type="ANY" >
+			<ee:transform doc:name="ANY ERRORS" doc:id="fe0fe0af-1e2a-4b32-a0f5-b08ad15f4d02" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"error": {
+		"status": "1",
+		"errorType": error.errorType.namespace,
+		"message": error.description,
+		"correlationId": correlationId
+	}
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<logger level="INFO" doc:name="log error" doc:id="612f4e33-5f62-4a98-aec9-bd7e2e9c08d0" message="${mule.log.expression.error}" />
+		</on-error-propagate>
 	</error-handler>
 	</mule>

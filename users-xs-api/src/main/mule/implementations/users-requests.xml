@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="retrieve-users" doc:id="1f6ef71e-a64f-410c-852b-58b6b38b0302" >
+		<logger level="INFO" doc:name="Log start" doc:id="7523101c-9c15-4cf8-be0f-5b9b5bf57872" message="${mule.log.expression.start}" />
+		<http:request method="${users-bs-api-request.methods.GET.name}" doc:name="GET / users" doc:id="924005ab-bde7-4e8d-817a-f014ecdd4999" path="${users-bs-api-request.methods.GET.paths.users}" config-ref="HTTP-users-bs-api-request">
+			<http:query-params ><![CDATA[#[output application/json
+---
+{
+	id : attributes.queryParams.id,
+	name : attributes.queryParams.name,
+	surname : attributes.queryParams.surname,
+	email : attributes.queryParams.email,
+	address : attributes.queryParams.address,
+	phone : attributes.queryParams.phone
+}]]]></http:query-params>
+		</http:request>
+		<logger level="INFO" doc:name="Log end" doc:id="789b68ef-09ae-477f-9aac-ae7fd096d725" message="${mule.log.expression.end}" />
+	</sub-flow>
+	<sub-flow name="retrieve-users-by-id" doc:id="3835714b-c172-4886-8c85-c11fd94e1bec" >
+		<logger level="INFO" doc:name="Log start" doc:id="ab8feafc-8fe0-4c48-b4b4-93cda84aaed3" message="${mule.log.expression.start}" />
+		<http:request method="${users-bs-api-request.methods.GET.name}" doc:name="GET / users by id" doc:id="6d7f367a-6cca-4abc-829f-41f4a709d8a3" config-ref="HTTP-users-bs-api-request" path="${users-bs-api-request.methods.GET.paths.users-id}">
+			<http:uri-params ><![CDATA[#[output application/json
+---
+{
+	id : vars.id
+}]]]></http:uri-params>
+			<http:query-params ><![CDATA[#[output application/json
+---
+{
+	id : attributes.queryParams.id,
+	name : attributes.queryParams.name,
+	surname : attributes.queryParams.surname,
+	email : attributes.queryParams.email,
+	address : attributes.queryParams.address,
+	phone : attributes.queryParams.phone
+}]]]></http:query-params>
+		</http:request>
+		<logger level="INFO" doc:name="Log end" doc:id="5e03c8d3-2ad9-4aee-a64f-9781672b065f" message="${mule.log.expression.end}" />
+	</sub-flow>
+	<sub-flow name="create-users" doc:id="25f505da-1d64-4f88-8f6d-7942e9fc96ab" >
+		<logger level="INFO" doc:name="Log start" doc:id="6ff9eb98-5b21-4e3b-859c-de8a28207a07" message="${mule.log.expression.start}" />
+		<http:request method="${users-bs-api-request.methods.POST.name}" doc:name="POST / users" doc:id="9bde9694-c638-4f74-9ad1-87fa05b1f0f9" config-ref="HTTP-users-bs-api-request" path="${users-bs-api-request.methods.POST.paths.users}"/>
+		<logger level="INFO" doc:name="Log end" doc:id="90301195-bb53-4031-baa7-66821c3208d1" message="${mule.log.expression.end}" />
+	</sub-flow>
+	<sub-flow name="update-users" doc:id="1fa6a32d-5b95-4b41-84cf-2ca8df2de439" >
+		<logger level="INFO" doc:name="Log start" doc:id="b5ed83eb-9749-4469-ad8b-9c091835ac40" message="${mule.log.expression.start}" />
+		<http:request method="${users-bs-api-request.methods.PUT.name}" doc:name="PUT / users" doc:id="7340a401-09e2-4153-b109-0d2c3b61019e" config-ref="HTTP-users-bs-api-request" path="${users-bs-api-request.methods.PUT.paths.users}"/>
+		<logger level="INFO" doc:name="Log end" doc:id="733d3da0-ae54-478f-b034-2350281a9d84" message="${mule.log.expression.end}" />
+	</sub-flow>
+	<sub-flow name="update-users-by-id" doc:id="8fcb488a-d77f-4bf6-928a-5303fad382bc" >
+		<logger level="INFO" doc:name="Log start" doc:id="a8e787d2-e250-4c7c-9b75-0b2f0f427f7a" message="${mule.log.expression.start}" />
+		<http:request method="${users-bs-api-request.methods.PUT.name}" doc:name="PUT / users by id" doc:id="39bbe377-d030-43ff-bc5d-e8c6e9488d9c" config-ref="HTTP-users-bs-api-request" path="${users-bs-api-request.methods.PUT.paths.users-id}">
+			<http:uri-params ><![CDATA[#[output application/json
+---
+{
+	id : vars.id
+}]]]></http:uri-params>
+		</http:request>
+		<logger level="INFO" doc:name="Log end" doc:id="979fc3ea-c952-45ea-b22c-dc8f6f495303" message="${mule.log.expression.end}" />
+	</sub-flow>
+	<sub-flow name="delete-users" doc:id="21b730c8-67c1-49f7-bd8e-f7e23fc06ee1" >
+		<logger level="INFO" doc:name="Log start" doc:id="1f906c16-dc1f-43f6-961d-d1ecb38822b8" message="${mule.log.expression.start}" />
+		<http:request method="${users-bs-api-request.methods.DELETE.name}" doc:name="DELETE / users" doc:id="cd27a7f5-157a-4452-b08f-c472606250b2" config-ref="HTTP-users-bs-api-request" path="${users-bs-api-request.methods.DELETE.paths.users}"/>
+		<logger level="INFO" doc:name="Log end" doc:id="da5a77ac-1865-4e8a-8140-fa6f07f1b711" message="${mule.log.expression.end}" />
+	</sub-flow>
+</mule>
